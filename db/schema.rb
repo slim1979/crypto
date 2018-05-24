@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180524185241) do
+ActiveRecord::Schema.define(version: 20180524185629) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,5 +35,18 @@ ActiveRecord::Schema.define(version: 20180524185241) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "trades", force: :cascade do |t|
+    t.bigint "pair_id"
+    t.string "trade_id"
+    t.string "price"
+    t.string "quantity"
+    t.string "side"
+    t.string "timestamp"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pair_id"], name: "index_trades_on_pair_id"
+  end
+
   add_foreign_key "candles", "pairs"
+  add_foreign_key "trades", "pairs"
 end
