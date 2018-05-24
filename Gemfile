@@ -44,6 +44,8 @@ group :development, :test do
   gem 'shoulda-matchers'
   gem 'capybara-webkit'
   gem 'factory_bot_rails'
+  gem 'database_cleaner'
+
 end
 
 group :development do
