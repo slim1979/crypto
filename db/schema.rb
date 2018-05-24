@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180524181942) do
+ActiveRecord::Schema.define(version: 20180524185241) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "candles", force: :cascade do |t|
+    t.bigint "pair_id"
+    t.string "timestamp"
+    t.string "open"
+    t.string "close"
+    t.string "min"
+    t.string "max"
+    t.string "volume"
+    t.string "volumeQuote"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pair_id"], name: "index_candles_on_pair_id"
+  end
 
   create_table "pairs", force: :cascade do |t|
     t.string "symbols"
@@ -21,4 +35,5 @@ ActiveRecord::Schema.define(version: 20180524181942) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "candles", "pairs"
 end
