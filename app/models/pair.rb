@@ -3,5 +3,13 @@ class Pair < ApplicationRecord
   has_many :candles, dependent: :destroy
   has_many :tickers, dependent: :destroy
 
-  validates :symbols, presence: true
+  validates :symbols,
+            :baseCurrency,
+            :quoteCurrency,
+            :quantityIncrement,
+            :tickSize,
+            :takeLiquidityRate,
+            :provideLiquidityRate,
+            :feeCurrency,
+            presence: true
 end
