@@ -31,6 +31,13 @@ ActiveRecord::Schema.define(version: 20180524191557) do
 
   create_table "pairs", force: :cascade do |t|
     t.string "symbols"
+    t.string "baseCurrency"
+    t.string "quoteCurrency"
+    t.string "quantityIncrement"
+    t.string "tickSize"
+    t.string "takeLiquidityRate"
+    t.string "provideLiquidityRate"
+    t.string "feeCurrency"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
