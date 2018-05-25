@@ -1,0 +1,2 @@
+class Orderbook < ApplicationRecord
+end
