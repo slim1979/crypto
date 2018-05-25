@@ -46,7 +46,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'database_cleaner'
   gem 'rails-controller-testing'
-
+  gem 'launchy'
 end
 
 group :development do
