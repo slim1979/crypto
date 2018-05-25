@@ -10,7 +10,7 @@ table.table.table-hover
   th Истроия
   -@pairs.each do |pair|
     tr class=pair['symbols']
-      td=link_to pair['symbols'], pair_path(pair['symbols'])
+      td=link_to pair['symbols'], pair_path(pair)
       td=pair['baseCurrency']
       td=pair['quoteCurrency']
       td=pair['quantityIncrement']
@@ -18,4 +18,4 @@ table.table.table-hover
       td=pair['takeLiquidityRate']
       td=pair['provideLiquidityRate']
       td=pair['feeCurrency']
-      td=link_to 'История торгов', history_pair_path(pair['id'])
+      td=link_to 'История торгов', history_pair_path(pair)
