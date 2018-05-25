@@ -15,4 +15,16 @@ RSpec.describe PairsController, type: :controller do
       expect(response).to render_template :index
     end
   end
+
+  describe 'GET #show' do
+    before { get :show, params: { id: pairs.first } }
+
+    it 'assign request pair to @pair' do
+      expect(assigns(:pair)).to eq pairs.first
+    end
+
+    it 'renders show template' do
+      expect(response).to render_template :show
+    end
+  end
 end
