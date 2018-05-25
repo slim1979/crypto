@@ -28,4 +28,16 @@ RSpec.describe PairsController, type: :controller do
       expect(response).to render_template :show
     end
   end
+
+  describe 'GET #history' do
+    before { get :history, params: { id: pair } }
+
+    it 'assign request pair to @pair' do
+      expect(assigns(:pair)).to eq pair
+    end
+
+    it 'will render history template' do
+      expect(response).to render_template :history
+    end
+  end
 end
