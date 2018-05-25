@@ -1,0 +1,21 @@
+table.table.table-hover
+  th Наименование пары
+  th Базовая валюта
+  th Котируемая валюта
+  th Увеличение количества
+  th Шаг цены
+  th Ставка по умолчанию
+  th Стандартная ставка для рыночных сделок
+  th Валюта ставки
+  th Истроия
+  -@pairs.each do |pair|
+    tr class=pair['symbols']
+      td=link_to pair['symbols'], pair_path(pair['symbols'])
+      td=pair['baseCurrency']
+      td=pair['quoteCurrency']
+      td=pair['quantityIncrement']
+      td=pair['tickSize']
+      td=pair['takeLiquidityRate']
+      td=pair['provideLiquidityRate']
+      td=pair['feeCurrency']
+      td=link_to 'История торгов', history_pair_path(pair['id'])
