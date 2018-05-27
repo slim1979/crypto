@@ -3,7 +3,7 @@
   h4.pair_title
     | Валютная пара
     = " #{@pair.symbols}"
-  .history =link_to 'История торгов пары', history_pair_path(@pair)
+  .history =link_to 'История торгов пары', candles_pair_path(@pair)
 
 ul.nav.nav-tabs role="tablist"
   li role="presentation"
