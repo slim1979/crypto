@@ -81,5 +81,6 @@ ActiveRecord::Schema.define(version: 20180525135454) do
   end
 
   add_foreign_key "candles", "pairs"
+  add_foreign_key "orderbooks", "pairs"
   add_foreign_key "trades", "pairs"
 end
