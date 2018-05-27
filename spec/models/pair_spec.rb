@@ -15,12 +15,14 @@ RSpec.describe Pair, type: :model do
   it { should validate_uniqueness_of :symbols }
 
   describe 'daily check for new pairs' do
-    let!(:pair) { create(:pair, created_at: Time.current.localtime.yesterday.beginning_of_day ) }
-    let!(:trade) { create(:trade, pair: pair) }
+    let(:pair)   { create(:pair, created_at: Time.current.localtime.yesterday.beginning_of_day ) }
+    let(:trade)  { create(:trade, pair: pair) }
+    let(:candle) { create(:candle, pair: pair) }
 
     it 'will check for new pair' do
-      expect(Pair).to receive('check_for_new_pairs').and_return(Array) if Pair.count < 1 || (Time.now - pair.created_at)/84600 > 1
-      expect(Pair).to receive('check_for_new_trades').and_return(Array) if (Time.now - Trade.last.created_at) / 84_600 > 1
+      expect(Pair).to receive('check_for_new_pairs').and_return(Array)
+      expect(Pair).to receive('check_for_trades').and_return(Array)
+      expect(Pair).to receive('check_for_candles').and_return(Array)
       Pair.check_shedule
     end
   end
