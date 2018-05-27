@@ -1,0 +1,21 @@
+.topdiv
+  .back = link_to ' <--- На главную', pairs_path
+  h4.pair_title
+    | Валютная пара
+    = " #{@pair.symbols}"
+  .history =link_to 'История торгов пары', history_pair_path(@pair)
+
+ul.nav.nav-tabs role="tablist"
+  li role="presentation"
+    a aria-controls="trustee" data-toggle="tab" href="#orderbook" role="tab"  Orderbook
+  li role="presentation"
+    a aria-controls="managment_company" data-toggle="tab" href="#trades" role="tab"  Trades
+
+/! Tab panes
+.tab-content
+  /!  Orderbook
+  #orderbook.tab-pane role="tabpanel"
+    = render partial="orderbook", orderbook: @pair.orderbook
+  /!Trades
+  #trades.tab-pane role="tabpanel"
+    = render partial="trades", trades: @pair.trades
