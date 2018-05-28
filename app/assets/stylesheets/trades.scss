@@ -1,3 +1,13 @@
 // Place all the styles related to the Trades controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.trade_row{
+  display: grid;
+  grid-template-columns: repeat(5, 260px);
+  grid-template-rows: auto;
+  text-align: center;
+  transition: 0.8s;
+}
+.trade_row:hover{
+  background-color: lightGrey;
+}
