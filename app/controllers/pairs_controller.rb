@@ -7,12 +7,13 @@ class PairsController < ApplicationController
 
   def show; end
 
-  def candles; end
+  def candles
+    @candles = @pair.candles
+  end
 
   private
 
   def load_pair
     @pair = Pair.find params[:id]
-    @candles = @pair.candles
   end
 end
