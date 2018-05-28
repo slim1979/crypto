@@ -1,0 +1,2 @@
+class OrderbookAsksController < ApplicationController
+end
