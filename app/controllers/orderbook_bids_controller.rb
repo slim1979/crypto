@@ -1,0 +1,2 @@
+class OrderbookBidsController < ApplicationController
+end

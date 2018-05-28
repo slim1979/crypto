@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180528085005) do
+ActiveRecord::Schema.define(version: 20180528085225) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,15 @@ ActiveRecord::Schema.define(version: 20180528085005) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["pair_id"], name: "index_orderbook_asks_on_pair_id"
+  end
+
+  create_table "orderbook_bids", force: :cascade do |t|
+    t.bigint "pair_id"
+    t.string "price"
+    t.string "size"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pair_id"], name: "index_orderbook_bids_on_pair_id"
   end
 
   create_table "pairs", force: :cascade do |t|
@@ -80,5 +89,6 @@ ActiveRecord::Schema.define(version: 20180528085005) do
 
   add_foreign_key "candles", "pairs"
   add_foreign_key "orderbook_asks", "pairs"
+  add_foreign_key "orderbook_bids", "pairs"
   add_foreign_key "trades", "pairs"
 end
