@@ -15,7 +15,7 @@ ul.nav.nav-tabs role="tablist"
 .tab-content
   /!  Orderbook
   #orderbook.tab-pane role="tabpanel"
-    = render partial="orderbook", orderbook: @pair.orderbook
+    = render partial="orderbook", orderbook_asks: @pair.orderbook_asks, orderbook_bids: @pair.orderbook_bids
   /!Trades
   #trades.tab-pane role="tabpanel"
     = render partial="trades", trades: @pair.trades
