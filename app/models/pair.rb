@@ -1,7 +1,8 @@
 class Pair < ApplicationRecord
   has_many :trades, dependent: :destroy
   has_many :candles, dependent: :destroy
-  has_one :orderbook, dependent: :destroy
+  has_many :orderbook_asks, dependent: :destroy
+  has_many :orderbook_bids, dependent: :destroy
   validates :symbols,
             :baseCurrency,
             :quoteCurrency,
@@ -15,56 +16,77 @@ class Pair < ApplicationRecord
 
   class << self
     def check_shedule
-      check_for_new_pairs if need_update?('pair')
-      check_for_trades if need_update?('trade')
-      check_for_candles if need_update?('candle')
+      check_for_new_pairs if need_update?('Pair')
+      check_for_trades if need_update?('Trade')
+      check_for_orderbook if need_update?('Orderbook')
+      check_for_candles if need_update?('Candle')
     end
 
+    private
+
     def need_update?(type)
-      type = type.capitalize.constantize
+      return orderbook_update if type == 'Orderbook'
+      type = type.constantize
       type.count < 1 || (Time.now - type.pluck(:created_at).max) / 84_600 > 1
     end
 
+    def orderbook_update
+      [OrderbookAsk, OrderbookBid].each { |kind| kind.count < 1 || (Time.now - kind.pluck(:created_at).max) / 84_600 > 1 }
+    end
+
     def check_for_new_pairs
-      request('symbol').each do |pair_params|
-        Pair.create(symbols: pair_params['id'],
-                    baseCurrency: pair_params['baseCurrency'],
-                    quoteCurrency: pair_params['quoteCurrency'],
-                    quantityIncrement: pair_params['quantityIncrement'],
-                    tickSize: pair_params['tickSize'],
-                    takeLiquidityRate: pair_params['takeLiquidityRate'],
-                    provideLiquidityRate: pair_params['provideLiquidityRate'],
-                    feeCurrency: pair_params['feeCurrency'])
+      request('symbol').each do |params|
+        Pair.create(symbols: params['id'],
+                    baseCurrency: params['baseCurrency'],
+                    quoteCurrency: params['quoteCurrency'],
+                    quantityIncrement: params['quantityIncrement'],
+                    tickSize: params['tickSize'],
+                    takeLiquidityRate: params['takeLiquidityRate'],
+                    provideLiquidityRate: params['provideLiquidityRate'],
+                    feeCurrency: params['feeCurrency'])
       end
     end
 
     def check_for_trades
       Pair.all.each do |pair|
-        request("trades/#{pair.symbols}").each do |trade_params|
-          pair.trades.create(trade_id: trade_params['id'],
-                             price: trade_params['price'],
-                             quantity: trade_params['quantity'],
-                             side: trade_params['side'],
-                             timestamp: trade_params['timestamp'])
+        request("trades/#{pair.symbols}").each do |params|
+          pair.trades.create(trade_id: params['id'],
+                             price: params['price'],
+                             quantity: params['quantity'],
+                             side: params['side'],
+                             timestamp: params['timestamp'])
         end
+      end
+    end
+
+    def check_for_orderbook
+      Pair.all.each do |pair|
+        orderbook = request("orderbook/#{pair.symbols}")
+        create_orderbook('ask', pair, orderbook)
+        create_orderbook('bid', pair, orderbook)
+      end
+    end
+
+    def create_orderbook(type, pair, orderbook)
+      orderbook[type.to_s].each do |kind|
+        pair.send("orderbook_#{type}s").create(price: kind['price'],
+                                               size: kind['size'])
       end
     end
 
     def check_for_candles
       Pair.all.each do |pair|
-        request("candles/#{pair.symbols}").each do |trade_params|
-          pair.candles.create(timestamp: trade_params['timestamp'],
-                              open: trade_params['open'],
-                              close: trade_params['close'],
-                              min: trade_params['min'],
-                              max: trade_params['max'],
-                              volume: trade_params['volume'],
-                              volumeQuote: trade_params['volumeQuote'])
+        request("candles/#{pair.symbols}").each do |params|
+          pair.candles.create(timestamp: params['timestamp'],
+                              open: params['open'],
+                              close: params['close'],
+                              min: params['min'],
+                              max: params['max'],
+                              volume: params['volume'],
+                              volumeQuote: params['volumeQuote'])
         end
       end
     end
-
-    private
 
     def request(path)
       url = URI("https://api.hitbtc.com/api/2/public/#{path}")
