@@ -6,10 +6,10 @@
   .history =link_to 'История торгов пары', candles_pair_path(@pair)
 
 ul.nav.nav-tabs role="tablist"
-  li.active role="presentation"
-    a aria-controls="trustee" data-toggle="tab" href="#orderbook" role="tab"  Orderbook
   li role="presentation"
-    a aria-controls="managment_company" data-toggle="tab" href="#trades" role="tab"  Trades
+    a aria-controls="orderbook" data-toggle="tab" href="#orderbook" role="tab"  Orderbook
+  li role="presentation"
+    a aria-controls="trades" data-toggle="tab" href="#trades" role="tab"  Trades
 
 /! Tab panes
 .tab-content
