@@ -1,0 +1,19 @@
+.trade
+  .trade_row
+    .trade_id
+      | ID
+    .trade_price
+      | PRICE
+    .trade_quantity
+      | QUANTITY
+    .trade_side
+      | SIDE
+    .trade_timestamp
+      | TIMESTAMP
+  -trades.each do |trade|
+    .trade_row
+      .trade_id        =trade.trade_id
+      .trade_price     =trade.price
+      .trade_quantity  =trade.quantity
+      .trade_side      =trade.side
+      .trade_timestamp =trade.timestamp

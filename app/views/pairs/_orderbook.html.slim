@@ -1,0 +1,21 @@
+.orderbook
+  .ask
+    .title
+      | ASK
+    .price
+      | Price
+    .size
+      | Size
+    -orderbook_asks.each do |ask|
+      .price =ask['price']
+      .size  =ask['size']
+  .bid
+    .title
+      | BID
+    .price
+      | Price
+    .size
+      | Size
+    -orderbook_bids.each do |bid|
+      .price =bid['price']
+      .size  =bid['size']
