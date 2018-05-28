@@ -1,0 +1,19 @@
+.back =link_to '<-- На главную', pairs_path
+h4 История торгов валютной пары #{@pair.symbols}
+table.table.table-hover
+  th Дата
+  th Открытие
+  th Закрытие
+  th Минимум
+  th Максимум
+  th Объём базовой валюты
+  th Объём котируемой валюты
+  - @candles.each do |candle|
+    tr
+      td=candle.timestamp
+      td=candle.open
+      td=candle.close
+      td=candle.min
+      td=candle.max
+      td=candle.volume
+      td=candle.volumeQuote
